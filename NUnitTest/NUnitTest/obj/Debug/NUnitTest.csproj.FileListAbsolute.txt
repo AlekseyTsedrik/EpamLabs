@@ -1,0 +1,7 @@
+E:\EpamLabs\NUnitTest\NUnitTest\bin\Debug\NUnitTest.dll
+E:\EpamLabs\NUnitTest\NUnitTest\bin\Debug\NUnitTest.pdb
+E:\EpamLabs\NUnitTest\NUnitTest\bin\Debug\nunit.framework.dll
+E:\EpamLabs\NUnitTest\NUnitTest\bin\Debug\nunit.framework.xml
+E:\EpamLabs\NUnitTest\NUnitTest\obj\Debug\NUnitTest.csprojResolveAssemblyReference.cache
+E:\EpamLabs\NUnitTest\NUnitTest\obj\Debug\NUnitTest.dll
+E:\EpamLabs\NUnitTest\NUnitTest\obj\Debug\NUnitTest.pdb
