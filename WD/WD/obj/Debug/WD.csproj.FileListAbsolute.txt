@@ -1,0 +1,9 @@
+E:\EpamLabs\WD\WD\bin\Debug\WD.dll
+E:\EpamLabs\WD\WD\bin\Debug\WD.pdb
+E:\EpamLabs\WD\WD\bin\Debug\nunit.framework.dll
+E:\EpamLabs\WD\WD\bin\Debug\WebDriver.dll
+E:\EpamLabs\WD\WD\bin\Debug\nunit.framework.xml
+E:\EpamLabs\WD\WD\bin\Debug\WebDriver.xml
+E:\EpamLabs\WD\WD\obj\Debug\WD.csprojResolveAssemblyReference.cache
+E:\EpamLabs\WD\WD\obj\Debug\WD.dll
+E:\EpamLabs\WD\WD\obj\Debug\WD.pdb
