@@ -22,10 +22,10 @@ namespace WD
             buttonSearch.Click();
 
             IWebElement loginSearch = google.FindElement(By.Name("login"));
-            loginSearch.SendKeys("ups1221@yandex.by");
+            loginSearch.SendKeys("testautomationuser");
 
             IWebElement passwordSearch = google.FindElement(By.Name("password"));
-            passwordSearch.SendKeys("Defender1321");
+            passwordSearch.SendKeys("Time4Death!");
 
             IWebElement button = google.FindElement(By.XPath("//input[@value='Sign in']"));
             button.Click();
