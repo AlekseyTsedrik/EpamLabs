@@ -36,7 +36,6 @@ namespace ArrivoTest
         public void TestSearchRoute()
         {
             steps.SearchRoute(departureCity, arrivalCity, DateTime.Now.Day, DateTime.Now.Day + 1);
-            Assert.True(true);
         }
 
         [Test]

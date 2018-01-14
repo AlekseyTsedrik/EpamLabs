@@ -62,21 +62,11 @@ namespace ArrivoTest.Pages
         [FindsBy(How = How.Id, Using = "hotels-fly-out-date")]
         private IWebElement dateDeparture;
 
-        [FindsBy(How = How.Id, Using = "hotelsPeopleAmount")]
-        private IWebElement numGuests;
-
-        [FindsBy(How = How.Id, Using = "hotelsAdultPlus")]
-        private IWebElement addGuests;
-
         [FindsBy(How = How.Id, Using = "hotels-send")]
         private IWebElement buttonSearchHotels;
 
-        [FindsBy(How = How.XPath, Using = "/html/body/div[8]/div/a[2]")]
-        private IWebElement nextYearHotel;
-
         private bool dateDepartureEnabled = false;
         private bool dateDepartureBackEnabled = false;
-        private bool passengerInfoEnabled = false;
         private bool numGuestEnabled = false;
         private bool dateDepartureHotel = false;
         private bool dateArrivalHotel = false;
@@ -122,33 +112,6 @@ namespace ArrivoTest.Pages
         public void setArrivalCity(string arrivalCity)
         {
             inputArrivalCity.SendKeys(arrivalCity);
-        }
-
-        public void setYearDeparture(int year)
-        {
-            if (!dateDepartureEnabled)
-            {
-                inputDateDeparture.Click();
-                //IWebElement currentYear = dateBlock.FindElement(By.XPath("/html/body/div[7]/div/div/span[2]"));
-                int currentYear = DateTime.Now.Year;
-                IWebElement nextMonthButton = dateBlock.FindElement(By.XPath("/html/body/div[6]/div/a[2]/span"));
-                //int yearr = Convert.ToInt32(currentYear.Text);
-                for (int i = 0; i < (year - currentYear); i++)
-                {
-                    nextMonthButton.Click();
-                }
-                dateDepartureEnabled = true;
-            }
-            else if (dateDepartureEnabled)
-            {
-                IWebElement currentYear = dateBlock.FindElement(By.XPath("/html/body/div[7]/div/div/span[2]"));
-                IWebElement nextMonthButton = dateBlock.FindElement(By.XPath("/html/body/div[7]/div/a[2]/span"));
-                int yearr = Convert.ToInt32(currentYear.Text);
-                for (int i = 0; i < (year - yearr); i++)
-                {
-                    nextMonthButton.Click();
-                }
-            }
         }
 
         public void setDayDeparture(int day)
@@ -215,22 +178,6 @@ namespace ArrivoTest.Pages
         public void setNameCity(string name)
         {
             this.nameCity.SendKeys(name);
-        }
-
-        public void setNumGuest(int numGuest)
-        {
-            if (!numGuestEnabled)
-            {
-                this.numGuests.Click();
-                for (int i = 0; i < numGuest; i++)
-                    addGuests.Click();
-                numGuestEnabled = true;
-            }
-            else if (numGuestEnabled)
-            {
-                for (int i = 0; i < numGuest; i++)
-                    addGuests.Click();
-            }
         }
 
         public void setDayArrivalInHotel(int day)
