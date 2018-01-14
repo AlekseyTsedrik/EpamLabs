@@ -65,7 +65,7 @@ namespace ArrivoTest
         [Test]
         public void TestSearchRouteWithDayArrival()
         {
-            steps.SearchRouteWithDayArrival(departureCity, arrivalCity, DateTime.Now.Day + 1);
+            steps.SearchRouteWithDayArrival(departureCity, arrivalCity, 30);
         }
 
         [Test]
