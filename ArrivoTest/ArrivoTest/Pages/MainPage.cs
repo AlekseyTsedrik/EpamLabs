@@ -14,6 +14,21 @@ namespace ArrivoTest.Pages
 
         private const string URL = "http://www.arrivo.ru/";
 
+        [FindsBy(How = How.XPath, Using = "/html/body/div[1]/div/div/div[1]/ul/li[8]/a")]
+        private IWebElement buttonLogin;
+
+        [FindsBy(How = How.Id, Using = "LoginUser_email")]
+        private IWebElement inputLogin;
+
+        [FindsBy(How = How.Id, Using = "LoginUser_pass")]
+        private IWebElement inputPassword;
+
+        [FindsBy(How = How.XPath, Using = "/html/body/div[1]/div/div/div[1]/ul/li[8]/a/img")]
+        private IWebElement imageUser;
+
+        [FindsBy(How = How.XPath, Using = "/html/body/div[1]/div/div/div[2]/div[2]/div[2]/form/button")]
+        private IWebElement buttonEnter;
+
         [FindsBy(How = How.Id, Using = "tickets-fly-out-city")]
         private IWebElement inputDepartureCity;
 
@@ -26,37 +41,25 @@ namespace ArrivoTest.Pages
         [FindsBy(How = How.Id, Using = "tickets-fly-in-date")]
         private IWebElement inputDateDepartureBack;
 
-        [FindsBy(How = How.Id, Using = "peopleAmountAdult")]
-        private IWebElement inputPassengerInfo;
-
         [FindsBy(How = How.Id, Using = "ui-datepicker-div")]
         private IWebElement dateBlock;
 
         [FindsBy(How = How.Id, Using = "mainFormTicketsBut")]
         private IWebElement withoutTicketButton;
 
-        [FindsBy(How = How.XPath, Using = "/html/body/div[7]/div/a[2]")]
-        private IWebElement nextYearButton;
-
-        [FindsBy(How = How.XPath, Using = "/html/body/div[3]/div/div/div/div/div/div/div[2]/div/div[5]/div/div[1]/div/i[2]")]
-        private IWebElement addAdultPassenger;
-
-        [FindsBy(How = How.XPath, Using = "/html/body/div[3]/div/div/div/div/div/div/div[2]/div/div[5]/div/div[2]/div[1]/div/i[2]")]
-        private IWebElement addClildPassenger;
-
         [FindsBy(How = How.Id, Using = "tickets-send")]
         private IWebElement buttonSearchTickets;
 
-        [FindsBy(How = How.XPath, Using = "/html/body/div[3]/div/div/div/div/div/div/div[1]/a[2]/span[2]")]
+        [FindsBy(How = How.XPath, Using = "/html/body/div[2]/div/div/div/div/div/div/div[1]/a[2]/span[2]")]
         private IWebElement buttonHotels;
 
         [FindsBy(How = How.Id, Using = "hotels-fly-out-city")]
         private IWebElement nameCity;
 
-        [FindsBy(How = How.Id, Using = "hotels-fly-out-city")]
+        [FindsBy(How = How.Id, Using = "hotels-fly-in-date")]
         private IWebElement dateArrival;
 
-        [FindsBy(How = How.Id, Using = "hotels-fly-in-date")]
+        [FindsBy(How = How.Id, Using = "hotels-fly-out-date")]
         private IWebElement dateDeparture;
 
         [FindsBy(How = How.Id, Using = "hotelsPeopleAmount")]
@@ -89,6 +92,23 @@ namespace ArrivoTest.Pages
             driver.Navigate().GoToUrl(URL);
         }
 
+        public void ClickLogin()
+        {
+            buttonLogin.Click();
+        }
+
+        public bool PresenceImageUser()
+        {
+            return imageUser.Displayed;
+        }
+
+        public void Login(string email, string password)
+        {
+            inputLogin.SendKeys(email);
+            inputPassword.SendKeys(password);
+            buttonEnter.Click();
+        }
+
         public void SearchTickets()
         {
             buttonSearchTickets.Click();
@@ -109,37 +129,43 @@ namespace ArrivoTest.Pages
             if (!dateDepartureEnabled)
             {
                 inputDateDeparture.Click();
-                IWebElement currentYear = dateBlock.FindElement(By.XPath("/html/body/div[7]/div/div/span[2]"));
-                int yearr = Convert.ToInt32(currentYear.Text);
-                for (int i = 0; i < (year - yearr); i++)
+                //IWebElement currentYear = dateBlock.FindElement(By.XPath("/html/body/div[7]/div/div/span[2]"));
+                int currentYear = DateTime.Now.Year;
+                IWebElement nextMonthButton = dateBlock.FindElement(By.XPath("/html/body/div[6]/div/a[2]/span"));
+                //int yearr = Convert.ToInt32(currentYear.Text);
+                for (int i = 0; i < (year - currentYear); i++)
                 {
-                    nextYearButton.Click();
+                    nextMonthButton.Click();
                 }
+                dateDepartureEnabled = true;
             }
             else if (dateDepartureEnabled)
             {
                 IWebElement currentYear = dateBlock.FindElement(By.XPath("/html/body/div[7]/div/div/span[2]"));
+                IWebElement nextMonthButton = dateBlock.FindElement(By.XPath("/html/body/div[7]/div/a[2]/span"));
                 int yearr = Convert.ToInt32(currentYear.Text);
                 for (int i = 0; i < (year - yearr); i++)
                 {
-                    nextYearButton.Click();
+                    nextMonthButton.Click();
                 }
             }
         }
 
         public void setDayDeparture(int day)
         {
-            if(!dateDepartureEnabled)
+            if (!dateDepartureEnabled)
             {
                 inputDateDeparture.Click();
                 IWebElement date = dateBlock.FindElement(By.LinkText(day.ToString()));
                 date.Click();
+                dateDepartureEnabled = true;
             }
             else if (dateDepartureEnabled)
             {
                 IWebElement date = dateBlock.FindElement(By.LinkText(day.ToString()));
                 date.Click();
             }
+            dateDepartureEnabled = false;
         }
 
         public void setDayArrival(int day)
@@ -149,93 +175,31 @@ namespace ArrivoTest.Pages
                 inputDateDepartureBack.Click();
                 IWebElement date = dateBlock.FindElement(By.LinkText(day.ToString()));
                 date.Click();
+                dateDepartureEnabled = true;
             }
             else if (dateDepartureBackEnabled)
             {
                 IWebElement date = dateBlock.FindElement(By.LinkText(day.ToString()));
                 date.Click();
             }
-            
+
         }
 
-        public void setYearArrival(int year)
+        public void setWithoutTicket()
         {
             if (!dateDepartureBackEnabled)
             {
                 inputDateDepartureBack.Click();
-                IWebElement currentYear = dateBlock.FindElement(By.XPath("/html/body/div[7]/div/div/span[2]"));
-                int yearr = Convert.ToInt32(currentYear.Text);
-                for (int i = 0; i < (year - yearr); i++)
-                {
-                    nextYearButton.Click();
-                }
+                IWebElement withoutTicket = driver.FindElement(By.Id("mainFormTicketsBut"));
+                withoutTicket.Click();
+                dateDepartureBackEnabled = true;
             }
-            else if (dateDepartureBackEnabled)
+            if (dateDepartureBackEnabled)
             {
-                IWebElement currentYear = dateBlock.FindElement(By.XPath("/html/body/div[7]/div/div/span[2]"));
-                int yearr = Convert.ToInt32(currentYear.Text);
-                for (int i = 0; i < (year - yearr); i++)
-                {
-                    nextYearButton.Click();
-                }
+                IWebElement withoutTicket = driver.FindElement(By.Id("mainFormTicketsBut"));
+                withoutTicket.Click();
             }
-            
-        }
 
-        public void setWithoutTicket(bool withoutTicket)
-        {
-            if(!dateDepartureBackEnabled)
-            {
-                inputDateDepartureBack.Click();
-                if (withoutTicket)
-                    withoutTicketButton.Click();
-            }
-            if(dateDepartureBackEnabled)
-            {
-                if (withoutTicket)
-                    withoutTicketButton.Click();
-            }
-            
-        }
-
-        public void setAdultCount(int count)
-        {
-            if(!passengerInfoEnabled)
-            {
-                inputPassengerInfo.Click();
-                for (int i = 0; i < count; i++)
-                {
-                    addAdultPassenger.Click();
-                }
-            }
-            else if (passengerInfoEnabled)
-            {
-                for (int i = 0; i < count; i++)
-                {
-                    addAdultPassenger.Click();
-                }
-            }
-            
-        }
-
-        public void setChildrenCount(int count)
-        {
-            if(!passengerInfoEnabled)
-            {
-                inputPassengerInfo.Click();
-                for (int i = 0; i < count; i++)
-                {
-                    addClildPassenger.Click();
-                }
-            }
-            else if (passengerInfoEnabled)
-            {
-                for (int i = 0; i < count; i++)
-                {
-                    addClildPassenger.Click();
-                }
-            }
-            
         }
 
         public void chooseHotel()
@@ -255,11 +219,12 @@ namespace ArrivoTest.Pages
 
         public void setNumGuest(int numGuest)
         {
-            if(!numGuestEnabled)
+            if (!numGuestEnabled)
             {
                 this.numGuests.Click();
                 for (int i = 0; i < numGuest; i++)
                     addGuests.Click();
+                numGuestEnabled = true;
             }
             else if (numGuestEnabled)
             {
@@ -270,13 +235,14 @@ namespace ArrivoTest.Pages
 
         public void setDayArrivalInHotel(int day)
         {
-            if(!dateArrivalHotel)
+            if (!dateArrivalHotel)
             {
                 dateArrival.Click();
                 IWebElement date = dateBlock.FindElement(By.LinkText(day.ToString()));
                 date.Click();
+                dateDepartureHotel = true;
             }
-            else if(dateArrivalHotel)
+            else if (dateArrivalHotel)
             {
                 IWebElement date = dateBlock.FindElement(By.LinkText(day.ToString()));
                 date.Click();
@@ -285,62 +251,17 @@ namespace ArrivoTest.Pages
 
         public void setDayDepartureHotel(int day)
         {
-            if(!dateDepartureHotel)
-            {
-                dateDeparture.Click();
-                IWebElement date = dateBlock.FindElement(By.LinkText(day.ToString()));
-                date.Click();
-            }
-            else if(dateDepartureHotel)
-            {
-                IWebElement date = dateBlock.FindElement(By.LinkText(day.ToString()));
-                date.Click();
-            }
-        }
-
-        public void setYearArrivalInHotel(int year)
-        {
-            if (!dateArrivalHotel)
-            {
-                dateArrival.Click();
-                IWebElement currentYear = dateBlock.FindElement(By.XPath("/html/body/div[8]/div/div/span[2]"));
-                int yearr = Convert.ToInt32(currentYear.Text);
-                for (int i = 0; i < (year - yearr); i++)
-                {
-                    nextYearHotel.Click();
-                }
-            }
-            else if (dateArrivalHotel)
-            {
-                IWebElement currentYear = dateBlock.FindElement(By.XPath("/html/body/div[8]/div/div/span[2]"));
-                int yearr = Convert.ToInt32(currentYear.Text);
-                for (int i = 0; i < (year - yearr); i++)
-                {
-                    nextYearHotel.Click();
-                }
-            }
-        }
-
-        public void setYearDepartureHotel(int year)
-        {
             if (!dateDepartureHotel)
             {
                 dateDeparture.Click();
-                IWebElement currentYear = dateBlock.FindElement(By.XPath("/html/body/div[8]/div/div/span[2]"));
-                int yearr = Convert.ToInt32(currentYear.Text);
-                for (int i = 0; i < (year - yearr); i++)
-                {
-                    nextYearHotel.Click();
-                }
+                IWebElement date = dateBlock.FindElement(By.LinkText(day.ToString()));
+                date.Click();
+                dateDepartureHotel = true;
             }
             else if (dateDepartureHotel)
             {
-                IWebElement currentYear = dateBlock.FindElement(By.XPath("/html/body/div[8]/div/div/span[2]"));
-                int yearr = Convert.ToInt32(currentYear.Text);
-                for (int i = 0; i < (year - yearr); i++)
-                {
-                    nextYearHotel.Click();
-                }
+                IWebElement date = dateBlock.FindElement(By.LinkText(day.ToString()));
+                date.Click();
             }
         }
     }

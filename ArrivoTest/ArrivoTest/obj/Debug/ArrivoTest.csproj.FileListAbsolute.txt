@@ -1,0 +1,12 @@
+E:\EpamLabs\ArrivoTest\ArrivoTest\bin\Debug\ArrivoTest.dll
+E:\EpamLabs\ArrivoTest\ArrivoTest\bin\Debug\ArrivoTest.pdb
+E:\EpamLabs\ArrivoTest\ArrivoTest\bin\Debug\nunit.framework.dll
+E:\EpamLabs\ArrivoTest\ArrivoTest\bin\Debug\WebDriver.dll
+E:\EpamLabs\ArrivoTest\ArrivoTest\bin\Debug\WebDriver.Support.dll
+E:\EpamLabs\ArrivoTest\ArrivoTest\bin\Debug\nunit.framework.xml
+E:\EpamLabs\ArrivoTest\ArrivoTest\bin\Debug\WebDriver.xml
+E:\EpamLabs\ArrivoTest\ArrivoTest\bin\Debug\WebDriver.Support.xml
+E:\EpamLabs\ArrivoTest\ArrivoTest\obj\Debug\ArrivoTest.csprojResolveAssemblyReference.cache
+E:\EpamLabs\ArrivoTest\ArrivoTest\obj\Debug\ArrivoTest.csproj.CoreCompileInputs.cache
+E:\EpamLabs\ArrivoTest\ArrivoTest\obj\Debug\ArrivoTest.dll
+E:\EpamLabs\ArrivoTest\ArrivoTest\obj\Debug\ArrivoTest.pdb
