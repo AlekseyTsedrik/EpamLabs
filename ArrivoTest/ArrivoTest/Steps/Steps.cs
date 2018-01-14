@@ -1,4 +1,4 @@
-﻿using OpenQA.Selenium;
+using OpenQA.Selenium;
 
 namespace ArrivoTest.Steps
 {
@@ -90,11 +90,6 @@ namespace ArrivoTest.Steps
             page.SearchTickets();
         }
 
-        public bool IsTargetSite(string url)
-        {
-            return driver.Url.Equals(url); 
-        }
-
         public void SearchHotel(string city, int dayDepartureHotel, int dayArrivalHotel)
         {
             Pages.MainPage page = new Pages.MainPage(driver);
@@ -115,11 +110,29 @@ namespace ArrivoTest.Steps
             page.setDayArrivalInHotel(dayArrivalHotel);
             page.searchHotel();
         }
-        
-        public bool IsErrorCity()
+
+        public bool IsErrorCityHotel()
         {
             Pages.MainPage page = new Pages.MainPage(driver);
             return page.ErrorLabelEnabled();
+        }
+
+        public bool IsErrorDepartureCity()
+        {
+            Pages.MainPage page = new Pages.MainPage(driver);
+            return page.ErrorLabelDepartureCity();
+        }
+
+        public bool IsErrorArrivalCity()
+        {
+            Pages.MainPage page = new Pages.MainPage(driver);
+            return page.ErrorLabelArrivalCity();
+        }
+
+        public bool IsSubmit()
+        {
+            Pages.MainPage page = new Pages.MainPage(driver);
+            return page.IsSubmitEnabled();
         }
     }
 }
