@@ -64,6 +64,9 @@ namespace ArrivoTest.Pages
 
         [FindsBy(How = How.Id, Using = "hotels-send")]
         private IWebElement buttonSearchHotels;
+        
+        [FindsBy(How = How.XPath, Using = "/html/body/div[2]/div/div/div/div/div/div/div[3]/div/div[1]/span[2]")]
+        private IWebElement errorLabel;
 
         private bool dateDepartureEnabled = false;
         private bool dateDepartureBackEnabled = false;
@@ -210,6 +213,11 @@ namespace ArrivoTest.Pages
                 IWebElement date = dateBlock.FindElement(By.LinkText(day.ToString()));
                 date.Click();
             }
+        }
+        
+       public bool ErrorLabelEnabled()
+        {
+            return errorLabel.Displayed;
         }
     }
 }
