@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -44,9 +44,6 @@ namespace ArrivoTest.Pages
         [FindsBy(How = How.Id, Using = "ui-datepicker-div")]
         private IWebElement dateBlock;
 
-        [FindsBy(How = How.Id, Using = "mainFormTicketsBut")]
-        private IWebElement withoutTicketButton;
-
         [FindsBy(How = How.Id, Using = "tickets-send")]
         private IWebElement buttonSearchTickets;
 
@@ -64,13 +61,18 @@ namespace ArrivoTest.Pages
 
         [FindsBy(How = How.Id, Using = "hotels-send")]
         private IWebElement buttonSearchHotels;
-        
+
         [FindsBy(How = How.XPath, Using = "/html/body/div[2]/div/div/div/div/div/div/div[3]/div/div[1]/span[2]")]
-        private IWebElement errorLabel;
+        private IWebElement errorLabelHotel;
+
+        [FindsBy(How = How.XPath, Using = "/html/body/div[2]/div/div/div/div/div/div/div[2]/div/div[1]/span[2]")]
+        private IWebElement errorLabelDepartureCity;
+
+        [FindsBy(How = How.XPath, Using = "/html/body/div[2]/div/div/div/div/div/div/div[2]/div/div[2]/span[2]")]
+        private IWebElement errorLabelArrivalCity;
 
         private bool dateDepartureEnabled = false;
         private bool dateDepartureBackEnabled = false;
-        private bool numGuestEnabled = false;
         private bool dateDepartureHotel = false;
         private bool dateArrivalHotel = false;
 
@@ -102,19 +104,32 @@ namespace ArrivoTest.Pages
             buttonEnter.Click();
         }
 
+        public bool IsSubmitEnabled()
+        {
+            return buttonSearchTickets.Enabled;
+        }
+
         public void SearchTickets()
         {
             buttonSearchTickets.Click();
+            dateDepartureEnabled = false;
+            dateDepartureBackEnabled = false;
         }
 
         public void setDepartureCity(string departureCity)
         {
             inputDepartureCity.SendKeys(departureCity);
+            inputDepartureCity.SendKeys(OpenQA.Selenium.Keys.Enter);
+            dateDepartureEnabled = false;
+            dateDepartureBackEnabled = false;
         }
 
         public void setArrivalCity(string arrivalCity)
         {
             inputArrivalCity.SendKeys(arrivalCity);
+            inputArrivalCity.SendKeys(OpenQA.Selenium.Keys.Enter);
+            dateDepartureEnabled = false;
+            dateDepartureBackEnabled = false;
         }
 
         public void setDayDeparture(int day)
@@ -131,7 +146,6 @@ namespace ArrivoTest.Pages
                 IWebElement date = dateBlock.FindElement(By.LinkText(day.ToString()));
                 date.Click();
             }
-            dateDepartureEnabled = false;
         }
 
         public void setDayArrival(int day)
@@ -141,31 +155,13 @@ namespace ArrivoTest.Pages
                 inputDateDepartureBack.Click();
                 IWebElement date = dateBlock.FindElement(By.LinkText(day.ToString()));
                 date.Click();
-                dateDepartureEnabled = true;
+                dateDepartureBackEnabled = true;
             }
             else if (dateDepartureBackEnabled)
             {
                 IWebElement date = dateBlock.FindElement(By.LinkText(day.ToString()));
                 date.Click();
             }
-
-        }
-
-        public void setWithoutTicket()
-        {
-            if (!dateDepartureBackEnabled)
-            {
-                inputDateDepartureBack.Click();
-                IWebElement withoutTicket = driver.FindElement(By.Id("mainFormTicketsBut"));
-                withoutTicket.Click();
-                dateDepartureBackEnabled = true;
-            }
-            if (dateDepartureBackEnabled)
-            {
-                IWebElement withoutTicket = driver.FindElement(By.Id("mainFormTicketsBut"));
-                withoutTicket.Click();
-            }
-
         }
 
         public void chooseHotel()
@@ -181,6 +177,9 @@ namespace ArrivoTest.Pages
         public void setNameCity(string name)
         {
             this.nameCity.SendKeys(name);
+            this.nameCity.SendKeys(OpenQA.Selenium.Keys.Enter);
+            dateDepartureHotel = false;
+            dateArrivalHotel = false;
         }
 
         public void setDayArrivalInHotel(int day)
@@ -190,7 +189,7 @@ namespace ArrivoTest.Pages
                 dateArrival.Click();
                 IWebElement date = dateBlock.FindElement(By.LinkText(day.ToString()));
                 date.Click();
-                dateDepartureHotel = true;
+                dateArrivalHotel = true;
             }
             else if (dateArrivalHotel)
             {
@@ -214,10 +213,20 @@ namespace ArrivoTest.Pages
                 date.Click();
             }
         }
-        
-       public bool ErrorLabelEnabled()
+
+        public bool ErrorLabelEnabled()
         {
-            return errorLabel.Displayed;
+            return errorLabelHotel.Displayed;
+        }
+
+        public bool ErrorLabelDepartureCity()
+        {
+            return errorLabelDepartureCity.Displayed;
+        }
+
+        public bool ErrorLabelArrivalCity()
+        {
+            return errorLabelArrivalCity.Displayed;
         }
     }
 }
