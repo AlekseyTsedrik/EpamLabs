@@ -115,5 +115,11 @@ namespace ArrivoTest.Steps
             page.setDayArrivalInHotel(dayArrivalHotel);
             page.searchHotel();
         }
+        
+        public bool IsErrorCity()
+        {
+            Pages.MainPage page = new Pages.MainPage(driver);
+            return page.ErrorLabelEnabled();
+        }
     }
 }
