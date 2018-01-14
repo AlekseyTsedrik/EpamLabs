@@ -78,6 +78,7 @@ namespace ArrivoTest
         public void TestSearchHotelWithErrorCity()
         {
             steps.SearchHotel("Мазила", 29, 30);
+            Assert.True(steps.IsErrorCity());
         }
 
         [Test]
