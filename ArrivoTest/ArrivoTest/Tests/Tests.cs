@@ -1,5 +1,6 @@
-﻿using NUnit.Framework;
+using NUnit.Framework;
 using System;
+using System.Threading;
 
 namespace ArrivoTest
 {
@@ -36,55 +37,72 @@ namespace ArrivoTest
         public void TestSearchRoute()
         {
             steps.SearchRoute(departureCity, arrivalCity, DateTime.Now.Day, DateTime.Now.Day + 1);
+            Thread.Sleep(20000);
+            Assert.True(steps.IsSubmit() && !steps.IsErrorDepartureCity() && !steps.IsErrorArrivalCity());
         }
 
         [Test]
         public void TestSearchRouteWithoutDepartureCity()
         {
             steps.SearchRouteWithoutDepartureCity(arrivalCity, DateTime.Now.Day, DateTime.Now.Day + 1);
+            Thread.Sleep(2000);
+            Assert.True(steps.IsErrorDepartureCity());
         }
 
         [Test]
         public void TestSearchRouteWithoutArrivalCity()
         {
             steps.SearchRouteWithoutArrivalCity(departureCity, DateTime.Now.Day, DateTime.Now.Day + 1);
+            Thread.Sleep(2000);
+            Assert.True(steps.IsErrorArrivalCity());
         }
 
         [Test]
         public void TestSearchRouteWithoutCities()
         {
             steps.SearchRouteWithoutCities(DateTime.Now.Day, DateTime.Now.Day + 1);
+            Thread.Sleep(2000);
+            Assert.True(steps.IsErrorDepartureCity() && steps.IsErrorArrivalCity());
         }
 
         [Test]
         public void TestSearchRouteWithDayDeparture()
         {
-            steps.SearchRouteWithDayDeparture(departureCity, arrivalCity, 30);
+            steps.SearchRouteWithDayDeparture(departureCity, arrivalCity, DateTime.Now.Day);
+            Thread.Sleep(5000);
+            Assert.True(steps.IsSubmit() && !steps.IsErrorDepartureCity() && !steps.IsErrorArrivalCity());
         }
 
         [Test]
         public void TestSearchRouteWithDayArrival()
         {
-            steps.SearchRouteWithDayArrival(departureCity, arrivalCity, 30);
+            steps.SearchRouteWithDayArrival(departureCity, arrivalCity, 29);
+            Thread.Sleep(5000);
+            Assert.True(steps.IsSubmit() && !steps.IsErrorDepartureCity() && !steps.IsErrorArrivalCity());
         }
 
         [Test]
         public void TestSearchHotel()
         {
             steps.SearchHotel(city, 29, 30);
+            Thread.Sleep(5000);
+            Assert.True(steps.IsSubmit() && !steps.IsErrorCityHotel());
         }
-
+        
         [Test]
         public void TestSearchHotelWithErrorCity()
         {
             steps.SearchHotel("Мазила", 29, 30);
-            Assert.True(steps.IsErrorCity());
+            Thread.Sleep(2000);
+            Assert.True(steps.IsErrorCityHotel());
         }
 
         [Test]
         public void TestSearchHotelWithoutCity()
         {
             steps.SearchHotelWithoutCity(29, 30);
+            Thread.Sleep(2000);
+            Assert.True(steps.IsErrorCityHotel());
         }
     }
 }
